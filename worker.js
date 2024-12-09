@@ -23,6 +23,7 @@ fileQueue.process(async (job, done) => {
   if (!fileId) {
     throw new Error('Missing fileId');
   }
+
   if (!userId) {
     throw new Error('Missing userId');
   }
