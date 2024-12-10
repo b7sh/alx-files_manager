@@ -10,11 +10,19 @@ class DBClient {
     const dbURL = `mongodb://${host}:${port}/${database}`;
 
     this.client = new mongodb.MongoClient(dbURL, { useUnifiedTopology: true });
-    this.client.connect();
+
+    this.client.connect()
+      .then(() => console.log('Connected to MongoDB'))
+      .catch((err) => console.error('MongoDB connection error:', err));
   }
 
-  isAlive() {
-    return this.client.isConnected();
+  async isAlive() {
+    try {
+      await this.client.db().command({ ping: 1 });
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   async nbUsers() {
